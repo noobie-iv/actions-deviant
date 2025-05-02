@@ -1,0 +1,56 @@
+name: Build windows release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions: write-all
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Instal Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: 5.12.12
+          archives: qtbase qttools qtsvg qtimageformats
+      
+      - name: Install vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          vcpkg/bootstrap-vcpkg.bat
+          echo "set(VCPKG_BUILD_TYPE release)" >> vcpkg/triplets/x64-windows.cmake
+
+      - name: Install deps
+        run: >
+          vcpkg/vcpkg install
+          zlib libjpeg-turbo libpng[core] tiff[core,zip,jpeg] openjpeg[core] eigen3
+          boost-array boost-bind boost-dynamic-bitset boost-foreach
+          boost-function boost-intrusive boost-lambda boost-multi-index
+          boost-tuple boost-optional boost-random
+
+      - name: Configure
+        run: >
+          cmake
+          -B build
+          -D CMAKE_CONFIGURATION_TYPES=Release
+          -D CMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+          -D CPACK_GENERATOR="NSIS;7Z"
+          -D ENABLE_EXIV2=OFF
+          -D ENABLE_OPENJPEG=ON
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Pack
+        run: cmake --build build --config Release --target PACKAGE
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/scantailor-deviant-*.7z
+            build/scantailor-deviant-*.exe
