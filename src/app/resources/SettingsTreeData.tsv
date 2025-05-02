@@ -1,0 +1,31 @@
+pageGeneral
+	pageHotKeysManager
+	pageDocking	docking_panels/enabled	0
+	pageThumbnails
+	pageAutoSaveProject	auto-save_project/enabled	0
+	pageTiffCompression
+	pageDebugMode	debug_mode/enabled	0
+pageFixOrientation
+pageSplitPages
+	pageApplyCut	apply_cut/enabled
+pageDistortionsCorrection
+	pageDeviantDeskew	deskew_deviant/enabled	0
+	pageDeskew
+	pageDewarping
+pageSelectContent
+	pagePageDetecton	page_detection/enabled	0
+	pageDeviantContent	select_content_deviant/enabled	0
+pagePageLayout
+	pageMargins
+	pageAlignment
+	pageDeviantMargins	margins_deviant/enabled	0
+pageOutput
+	pageBlackWhiteMode
+	pageColorGrayscaleMode
+	pageMixedMode
+		pageAutoLayer
+		pagePictureZonesLayer	picture_zones_layer/enabled
+		pageForegroundLayer	foreground_layer/enabled
+	pageFillZones
+	pageDespeckling
+	pageOutputMetadata
