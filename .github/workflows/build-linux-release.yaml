@@ -15,6 +15,7 @@ jobs:
       - name: Install deps
         run: |
           sudo apt-get update
+          sudo apt-get install -y ninja-build
           sudo apt-get install -y qtbase5-dev qttools5-dev libqt5svg5-dev
           sudo apt-get install -y libboost-dev
           sudo apt-get install -y zlib1g-dev libjpeg-dev libpng-dev libtiff-dev
@@ -25,6 +26,8 @@ jobs:
         run: |
           cmake \
             -B build \
+            -G Ninja \
+            -D CMAKE_BUILD_TYPE=Release \
             -D ENABLE_EXIV2=ON \
             -D ENABLE_OPENJPEG=ON \
             -D CPACK_GENERATOR=DEB
