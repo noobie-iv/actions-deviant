@@ -27,7 +27,7 @@ jobs:
       - name: Install deps
         run: >
           vcpkg/vcpkg install
-          zlib libjpeg-turbo libpng[core] tiff[core,zip,jpeg] openjpeg[core] eigen3
+          zlib libjpeg-turbo libpng[core] tiff[core,zip,jpeg] openjpeg[core] eigen3 exiv2[core,png]
           boost-array boost-bind boost-dynamic-bitset boost-foreach
           boost-function boost-intrusive boost-lambda boost-multi-index
           boost-tuple boost-optional boost-random
@@ -39,7 +39,7 @@ jobs:
           -D CMAKE_CONFIGURATION_TYPES=Release
           -D CMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
           -D CPACK_GENERATOR="NSIS;7Z"
-          -D ENABLE_EXIV2=OFF
+          -D ENABLE_EXIV2=ON
           -D ENABLE_OPENJPEG=ON
 
       - name: Build
